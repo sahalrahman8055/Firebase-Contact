@@ -86,7 +86,9 @@ class _ScreenHomeState extends State<ScreenHome> {
                               child: Text(
                                 firstLetter,
                                 style: TextStyle(
-                                    color: selectedColor, fontSize: 27),
+                                    color: selectedColor,
+                                    fontSize: 27,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),
