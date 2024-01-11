@@ -1,12 +1,15 @@
+import 'package:contacts/controller/addscreen_provider.dart';
 import 'package:contacts/view/home/screen_home.dart';
-import 'package:contacts/view/update/screen_update.dart';   
+import 'package:contacts/view/update/screen_update.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+      create: (context) => AddContactProvider(), child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -18,7 +21,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       routes: {
-        '/update':(context) => const ScreenUpdate(),
+        '/update': (context) => const ScreenUpdate(),
       },
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
