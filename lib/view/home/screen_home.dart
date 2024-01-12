@@ -1,4 +1,5 @@
 import 'package:contacts/controller/addscreen_provider.dart';
+import 'package:contacts/controller/internet_connectivity_provider.dart';
 import 'package:contacts/helper/color.dart';
 import 'package:contacts/model/contact_model.dart';
 import 'package:contacts/view/add/screen_add.dart';
@@ -16,7 +17,7 @@ class ScreenHome extends StatelessWidget {
         backgroundColor: kDarkColor,
         title: const Text(
           "Contacts",
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: kWhiteColor),
         ),
         centerTitle: true,
       ),
@@ -26,7 +27,7 @@ class ScreenHome extends StatelessWidget {
             builder: (context) => const ScreenAdd(),
           ));
         },
-        backgroundColor: Colors.white,
+        backgroundColor: kWhiteColor,
         child: const Icon(
           Icons.add,
           size: 30,
@@ -34,6 +35,16 @@ class ScreenHome extends StatelessWidget {
       ),
       body: Consumer<AddContactProvider>(
         builder: (context, value, child) {
+          if (value.contacts.isEmpty) {
+            Provider.of<InternetConnectivityProvider>(context, listen: false)
+                .getInternetConnectivity(context);
+            value.fetchContact();
+            return const Center(
+                child: Text(
+              'No Data Found',
+              style: TextStyle(color: kWhiteColor),
+            ));
+          }
           return ListView.builder(
             itemCount: value.contacts.length,
             itemBuilder: (context, index) {
@@ -45,11 +56,11 @@ class ScreenHome extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: kWhiteColor,
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: const [
                         BoxShadow(
-                            color: Colors.white, blurRadius: 5, spreadRadius: 3)
+                            color: kWhiteColor, blurRadius: 5, spreadRadius: 3)
                       ]),
                   height: 80,
                   // color: Colors.white,
@@ -60,7 +71,7 @@ class ScreenHome extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
                           child: CircleAvatar(
-                            backgroundColor: Colors.black54,
+                            backgroundColor: kBackGround,
                             radius: 27,
                             child: Text(
                               firstLetter,
@@ -102,7 +113,7 @@ class ScreenHome extends StatelessWidget {
                               icon: const Icon(
                                 Icons.edit,
                                 size: 25,
-                                color: Colors.blue,
+                                color: kBlueColor,
                               )),
                           IconButton(
                               onPressed: () {
@@ -111,7 +122,7 @@ class ScreenHome extends StatelessWidget {
                               icon: const Icon(
                                 Icons.delete,
                                 size: 25,
-                                color: Colors.red,
+                                color: kRedColor,
                               ))
                         ],
                       )
@@ -122,15 +133,6 @@ class ScreenHome extends StatelessWidget {
             },
           );
         },
-        // child: StreamBuilder(
-        //   stream: contact.orderBy('name').snapshots(),
-        //   builder: (context, AsyncSnapshot snapshot) {
-        //     if (snapshot.hasData) {
-        //       return
-        //     }
-        //     return Container();
-        //   },
-        // ),
       ),
     );
   }

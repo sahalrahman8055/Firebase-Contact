@@ -1,5 +1,5 @@
 import 'package:contacts/model/contact_model.dart';
-import 'package:contacts/services/contact_services.dart';
+import 'package:contacts/services/firebase/contact_services.dart';
 import 'package:flutter/material.dart';
 
 class AddContactProvider extends ChangeNotifier {

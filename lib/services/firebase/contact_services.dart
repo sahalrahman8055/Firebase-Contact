@@ -26,6 +26,4 @@ class FirebaseService {
   void deleteContact(String docId) {
     firebaseContact.doc(docId).delete();
   }
-
-
 }
